@@ -1,8 +1,10 @@
 #include <stdio.h>
-#include <conio.h>
+//#include <conio.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
 #define N 20001
 

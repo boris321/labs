@@ -1,5 +1,8 @@
 #include <stdlib.h>
-#include <windows.h>
+//#include <windows.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
 #include "des.h"
 
