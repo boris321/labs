@@ -3,7 +3,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
 #define N 20001
