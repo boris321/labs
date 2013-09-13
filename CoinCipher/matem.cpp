@@ -21,6 +21,53 @@ void del_zero ( char * a, char * b );
 int NOD( char * ,char * , char * );
 int NOD_rash ( char * a, char * b, char * d, char * x, char * y );
 
+char *
+strrev (char *string)
+{
+    register char *p = string;
+    register char *q;
+    if (*(q = p)) /* non-empty string? */
+    {
+        while (*++q)
+            ;
+        while (--q > p)
+        {
+            register char c;
+            c = *q;
+            *q = *p;
+            *p++ = c;
+        }
+    }
+    return string;
+}
+
+
+#define NUMBER_OF_DIGITS 32
+void _ultoa(unsigned long value, char* string, unsigned char radix)
+{
+ unsigned char index;
+ char buffer[NUMBER_OF_DIGITS];  /* space for NUMBER_OF_DIGITS + '\0' */
+ index = NUMBER_OF_DIGITS;
+ do {
+   buffer[--index] = '0' + (value % radix);
+   if ( buffer[index] > '9') buffer[index] += 'A' - '9' - 1;
+   value /= radix;
+ } while (value != 0);
+  do {
+   *string++ = buffer[index++];
+  } while ( index < NUMBER_OF_DIGITS );
+  *string = 0;  /* string terminator */
+}
+void _ltoa(long value, char* string, unsigned char radix)
+{
+  if (value < 0 && radix == 10) {
+    *string++ = '-';
+    value = -value;
+  }
+  _ultoa(value, string, radix);
+}
+
+
 int add ( char *aa, char *bb, char * res )
 {
         int i, j, k;	//индексы массивов операндов и результата
@@ -456,7 +503,7 @@ char *randomstr(char *bound)
                 for (int i=0; i<n; i++)
                 {
                         int a = rand()%10;
-                        itoa(a,character,10);
+                        _ltoa(a,character,10);
                         strcat(randstr,character);
                 }
                 strcpy(buf,randstr);
