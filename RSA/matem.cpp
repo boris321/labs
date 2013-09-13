@@ -21,6 +21,53 @@ void del_zero ( char * a, char * b );
 int NOD( char * ,char * , char * );
 int NOD_rash ( char * a, char * b, char * d, char * x, char * y );
 
+char *
+strrev (char *string)
+{
+    register char *p = string;
+    register char *q;
+    if (*(q = p)) /* non-empty string? */
+    {
+        while (*++q)
+            ;
+        while (--q > p)
+        {
+            register char c;
+            c = *q;
+            *q = *p;
+            *p++ = c;
+        }
+    }
+    return string;
+}
+
+
+#define NUMBER_OF_DIGITS 32
+void _ultoa(unsigned long value, char* string, unsigned char radix)
+{
+ unsigned char index;
+ char buffer[NUMBER_OF_DIGITS];  /* space for NUMBER_OF_DIGITS + '\0' */
+ index = NUMBER_OF_DIGITS;
+ do {
+   buffer[--index] = '0' + (value % radix);
+   if ( buffer[index] > '9') buffer[index] += 'A' - '9' - 1;
+   value /= radix;
+ } while (value != 0);
+  do {
+   *string++ = buffer[index++];
+  } while ( index < NUMBER_OF_DIGITS );
+  *string = 0;  /* string terminator */
+}
+void _ltoa(long value, char* string, unsigned char radix)
+{
+  if (value < 0 && radix == 10) {
+    *string++ = '-';
+    value = -value;
+  }
+  _ultoa(value, string, radix);
+}
+
+
 int add ( char *aa, char *bb, char * res )
 {
         int i, j, k;	//индексы массивов операндов и результата
@@ -71,7 +118,7 @@ int add ( char *aa, char *bb, char * res )
 int sub ( char *aa, char *bb, char * res )
 {
         char * a, * b;		//указатели на строки (массивы) уменьшаемого и вычитаемого
-        int i, j, k;		//индексы массивов уменьшаемого, вычитаемого и разности
+        unsigned int i, j, k;		//индексы массивов уменьшаемого, вычитаемого и разности
         int tmp;				//буфер результата поразрядного вычитаения
         int flg;				//признак отрицательности разности
         int cr;				//признак займа из старшего разряда
@@ -250,12 +297,12 @@ int div ( char *a, char *b, char * res, char * rem )
 {
         char * buf1, * buf2;			//Указатели на буферные строки
         char c;							//Буферная символьная переменная
-        int i, j;							//Индекс буферного массива
+        unsigned int i;							//Индекс буферного массива
         int q;							//Признак привязывания 1-го символа с
                                                                                 //промежуточным уменьшаемым
                                                                                 //каждый последующий привязанный символ
                                                                                 //сопровождается дописыванием нулей в результат
-        int nb;							//Переменная для хранения длины строки делителя
+        unsigned int nb;							//Переменная для хранения длины строки делителя
 
         * res = '\0';					//зануляем строку с результатом
         * rem = '\0';
@@ -419,7 +466,7 @@ int div ( char *a, char *b, char * res, char * rem )
 //Функция удаления лишних нулей в старших разрядах операндов
 void del_zero ( char * a, char * b )
 {
-        int j;
+        unsigned int j;
         while(1)
         {
                 if ((a[0]!='0') || (strlen(a)==1)) break; //если встретили не 0, заканчиваем проверку
@@ -448,7 +495,6 @@ char *randomstr(char *bound)
         char * randstr = new char [N];
         char * buf = new char [N];
 
-        char character[2]="";
         strcpy(randstr,"");
         while(1)
         {
@@ -457,7 +503,7 @@ char *randomstr(char *bound)
                 for (int i=0; i<n; i++)
                 {
                         int a = rand()%10;
-                        itoa(a,character,10);
+                        _ltoa(a,character,10);
                         strcat(randstr,character);
                 }
                 strcpy(buf,randstr);
